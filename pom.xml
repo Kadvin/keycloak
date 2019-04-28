@@ -222,6 +222,7 @@
         <module>adapters</module>
         <module>authz</module>
         <module>misc</module>
+        <module>joowing-auth-extension</module>
     </modules>
 
     <dependencyManagement>

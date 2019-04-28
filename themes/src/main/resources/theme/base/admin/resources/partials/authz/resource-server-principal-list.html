@@ -1,0 +1,122 @@
+<div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
+
+    <ol class="breadcrumb">
+        <li><a href="#/realms/{{realm.realm}}/clients">{{:: 'clients' | translate}}</a></li>
+        <li><a href="#/realms/{{realm.realm}}/clients/{{client.id}}">{{client.clientId}}</a></li>
+        <li><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server">{{:: 'authz-authorization' |
+            translate}}</a></li>
+        <li><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/principal">{{::
+            'authz-principals' | translate}}</a></li>
+    </ol>
+
+    <kc-tabs-resource-server></kc-tabs-resource-server>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th class="kc-table-actions" colspan="6">
+                <div class="form-inline">
+                    {{:: 'filter' | translate}}:&nbsp;&nbsp;
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" placeholder="{{:: 'name' | translate}}" data-ng-model="query.name"
+                                   class="form-control search"
+                                   onkeydown="if (event.keyCode == 13) document.getElementById('principalSearch').click()">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search" id="principalSearch" type="submit"
+                                   data-ng-click="firstPage()"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="{{:: 'type' | translate}}" data-ng-model="query.type"
+                                   class="form-control search"
+                                   onkeydown="if (event.keyCode == 13) document.getElementById('principalSearch').click()">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search" type="submit" data-ng-click="firstPage()"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="{{:: 'authz-uri' | translate}}" data-ng-model="query.uri"
+                                   class="form-control search"
+                                   onkeydown="if (event.keyCode == 13) document.getElementById('principalSearch').click()">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search" type="submit" data-ng-click="firstPage()"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="{{:: 'authz-owner' | translate}}"
+                                   data-ng-model="query.owner" class="form-control search"
+                                   onkeydown="if (event.keyCode == 13) document.getElementById('principalSearch').click()">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search" type="submit" data-ng-click="firstPage()"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="{{:: 'authz-scope' | translate}}"
+                                   data-ng-model="query.scope" class="form-control search"
+                                   onkeydown="if (event.keyCode == 13) document.getElementById('principalSearch').click()">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search" type="submit" data-ng-click="firstPage()"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr data-ng-hide="principals.length == 0">
+            <th width="1%"></th>
+            <th>{{:: 'name' | translate}}</th>
+            <th>{{:: 'type' | translate}}</th>
+            <th>{{:: 'authz-uris' | translate}}</th>
+            <th>{{:: 'authz-owner' | translate}}</th>
+            <th width="11%" style="text-align: center">{{:: 'actions' | translate}}</th>
+        </tr>
+        </thead>
+        <tfoot data-ng-show="principals && (principals.length >= query.max || query.first > 0)">
+        <tr>
+            <td colspan="6">
+                <div class="table-nav">
+                    <button data-ng-click="firstPage()" class="first" ng-disabled="query.first == 0">{{:: 'first-page' |
+                        translate}}
+                    </button>
+                    <button data-ng-click="previousPage()" class="prev" ng-disabled="query.first == 0">{{::
+                        'previous-page' | translate}}
+                    </button>
+                    <button data-ng-click="nextPage()" class="next" ng-disabled="principals.length < query.max">{{::
+                        'next-page' | translate}}
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr ng-repeat-start="principal in principals | filter:search | orderBy:'name'" style="cursor: pointer;">
+            <td>
+            </td>
+            <td>
+                <a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/principal/{{principal._id}}">{{principal.name}}</a>
+            </td>
+            <td>
+                <span data-ng-show="principal.type">{{principal.type}}</span>
+                <span data-ng-show="!principal.type">{{:: 'authz-no-type-defined' | translate}}</span>
+            </td>
+            <td>
+                <span data-ng-show="principal.uris.length == 0">{{:: 'authz-no-uri-defined' | translate}}</span>
+                <span data-ng-show="principal.uris.length == 1">{{principal.uris[0]}}</span>
+                <span data-ng-show="principal.uris.length > 1">{{principal.uris.length}} {{:: 'authz-uris' | translate}}</span>
+            </td>
+            <td>{{principal.owner.name}}</td>
+            <td align="center">
+            </td>
+        </tr>
+        <tr data-ng-show="(principals | filter:search).length == 0">
+            <td class="text-muted" colspan="6" data-ng-show="search.name">{{:: 'no-results' | translate}}</td>
+            <td class="text-muted" colspan="6" data-ng-hide="search.name">{{:: 'authz-no-principals-available' |
+                translate}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<kc-menu></kc-menu>

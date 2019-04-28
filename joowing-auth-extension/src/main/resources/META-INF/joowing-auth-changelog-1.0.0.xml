@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="jie.xiong@joowing.com" id="1.0.0">
+
+        <createTable tableName="JOOWING_PRINCIPAL_FACTORIES">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DERIVING_CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DERIVING_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DERIVING_DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="RESOURCE_TYPE" type="VARCHAR(255)"/>
+            <column name="RESOURCE_CONDITIONS" type="JSON"/>
+            <column name="DEFAULT_ICON" type="VARCHAR(255)"/>
+            <column name="DISABLED" type="BOOLEAN" defaultValueBoolean="false"/>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="JOOWING_PRINCIPAL_FACTORIES"
+                columnNames="ID"
+                constraintName="PK_JOOWING_PRINCIPAL_FACTORIES"
+        />
+        <addUniqueConstraint
+                tableName="JOOWING_PRINCIPAL_FACTORIES"
+                columnNames="TYPE"
+                constraintName="UK_JOOWING_PRINCIPAL_FACTORIES_TYPE"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_PRINCIPAL_FACTORIES"
+                baseColumnNames="REALM_ID"
+                constraintName="FK_JOOWING_PRINCIPAL_FACTORIES_REALM_ID"
+                referencedTableName="REALM"
+                referencedColumnNames="ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_PRINCIPAL_FACTORIES"
+                baseColumnNames="CLIENT_ID"
+                constraintName="FK_JOOWING_PRINCIPAL_FACTORIES_CLIENT_ID"
+                referencedTableName="CLIENT"
+                referencedColumnNames="ID"
+        />
+
+        <createTable tableName="JOOWING_PRINCIPALS">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRINCIPAL_TYPE" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="RESOURCE_TYPE" type="VARCHAR(255)"/>
+            <column name="RESOURCE_CODE" type="VARCHAR(255)"/>
+            <column name="RESOURCE_NAME" type="VARCHAR(255)"/>
+            <column name="ICON" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="JOOWING_PRINCIPALS"
+                columnNames="ID"
+                constraintName="PK_JOOWING_PRINCIPALS"
+        />
+        <addUniqueConstraint
+                tableName="JOOWING_PRINCIPALS"
+                columnNames="CLIENT_ID,CODE"
+                constraintName="UK_JOOWING_PRINCIPALS_CODE_IN_CLIENT_ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_PRINCIPALS"
+                baseColumnNames="REALM_ID"
+                constraintName="FK_JOOWING_PRINCIPALS_REALM_ID"
+                referencedTableName="REALM"
+                referencedColumnNames="ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_PRINCIPALS"
+                baseColumnNames="CLIENT_ID"
+                constraintName="FK_JOOWING_PRINCIPALS_CLIENT_ID"
+                referencedTableName="CLIENT"
+                referencedColumnNames="ID"
+        />
+
+        <createTable tableName="JOOWING_USER_PRINCIPALS">
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                tableName="JOOWING_USER_PRINCIPALS"
+                columnNames="USER_ID,PRINCIPAL_ID"
+                constraintName="PK_JOOWING_USER_PRINCIPALS"
+        />
+
+        <createTable tableName="JOOWING_GROUP_PRINCIPALS">
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                tableName="JOOWING_GROUP_PRINCIPALS"
+                columnNames="GROUP_ID,PRINCIPAL_ID"
+                constraintName="PK_JOOWING_GROUP_PRINCIPALS"
+        />
+
+        <createTable tableName="JOOWING_MENU_ENTRIES">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARENT_ID" type="VARCHAR(36)"/>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRINCIPAL_TYPE" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ICON" type="VARCHAR(255)"/>
+            <column name="POSITION" type="INT"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="AUTHORIZATION_SCOPE_NAME" type="VARCHAR(255)"/>
+            <column name="CONTEXT" type="JSON"/>
+        </createTable>
+        <addPrimaryKey
+                tableName="JOOWING_MENU_ENTRIES"
+                columnNames="ID"
+                constraintName="PK_JOOWING_MENU_ENTRIES"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_MENU_ENTRIES"
+                baseColumnNames="PARENT_ID"
+                constraintName="FK_JOOWING_MENU_ENTRIES_PARENT_ID"
+                referencedTableName="JOOWING_MENU_ENTRIES"
+                referencedColumnNames="ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_MENU_ENTRIES"
+                baseColumnNames="REALM_ID"
+                constraintName="FK_JOOWING_MENU_ENTRIES_REALM_ID"
+                referencedTableName="REALM"
+                referencedColumnNames="ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_MENU_ENTRIES"
+                baseColumnNames="CLIENT_ID"
+                constraintName="FK_JOOWING_MENU_ENTRIES_CLIENT_ID"
+                referencedTableName="CLIENT"
+                referencedColumnNames="ID"
+        />
+        <addForeignKeyConstraint
+                baseTableName="JOOWING_MENU_ENTRIES"
+                baseColumnNames="PRINCIPAL_TYPE"
+                constraintName="FK_JOOWING_MENU_ENTRIES_PRINCIPAL_TYPE"
+                referencedTableName="JOOWING_PRINCIPAL_FACTORIES"
+                referencedColumnNames="TYPE"
+        />
+        <addUniqueConstraint
+                tableName="JOOWING_MENU_ENTRIES"
+                columnNames="PARENT_ID,CODE"
+                constraintName="UK_JOOWING_MENU_ENTRIES_CODE_IN_PARENT_ID"
+        />
+
+    </changeSet>
+    
+</databaseChangeLog>

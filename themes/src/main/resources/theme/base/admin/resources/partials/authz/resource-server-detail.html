@@ -31,6 +31,25 @@
                 </div>
             </div>
         </fieldset>
+        <fieldset>
+            <div class="form-group">
+                <label for="import-file" class="col-sm-2 control-label">{{:: 'principal-factories' | translate}}</label>
+                <div class="col-md-6">
+                    <div class="col-md-6">
+                        <select class="form-control" id="server.principalFactories" multiple="true" data-ng-model="server.principalFactories">
+                            <option value="global">{{:: 'principal-factory-global' | translate}}</option>
+                            <option value="retailer">{{:: 'principal-factory-retailer' | translate}}</option>
+                            <option value="retailer-proxy">{{:: 'principal-factory-retailer-proxy' | translate}}</option>
+                            <option value="commerce">{{:: 'principal-factory-commerce' | translate}}</option>
+                            <option value="commerce-proxy">{{:: 'principal-factory-commerce-proxy' | translate}}</option>
+                            <option value="funder">{{:: 'principal-factory-funder' | translate}}</option>
+                            <option value="funder-proxy">{{:: 'principal-factory-funder-proxy' | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <kc-tooltip>{{:: 'authz-principal-factories.tooltip' | translate}}</kc-tooltip>
+            </div>
+        </fieldset>
         <fieldset class="border-top" data-ng-hide="importing">
             <div class="form-group">
                 <label class="col-md-2 control-label" for="server.policyEnforcementMode">{{:: 'authz-policy-enforcement-mode' | translate}}</label>

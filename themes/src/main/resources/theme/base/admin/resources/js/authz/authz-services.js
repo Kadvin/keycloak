@@ -22,6 +22,18 @@ module.factory('ResourceServerResource', function($resource) {
     });
 });
 
+module.factory('ResourceServerPrincipal', function($resource) {
+    return $resource(authUrl + '/admin/realms/:realm/clients/:client/authz/resource-server/principals/:principal_id', {
+        realm : '@realm',
+        client: '@client',
+        principal_id : '@principal_id'
+    }, {
+        'update' : {method : 'PUT'},
+        'search' : {url: authUrl + '/admin/realms/:realm/clients/:client/authz/resource-server/principals/search', method : 'GET'},
+        'permissions' : {url: authUrl + '/admin/realms/:realm/clients/:client/authz/resource-server/principals/:principal_id/users', method : 'GET', isArray: true}
+    });
+});
+
 module.factory('ResourceServerScope', function($resource) {
     return $resource(authUrl + '/admin/realms/:realm/clients/:client/authz/resource-server/scope/:id', {
         realm : '@realm',

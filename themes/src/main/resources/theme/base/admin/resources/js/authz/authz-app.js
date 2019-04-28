@@ -137,6 +137,17 @@ module.config(['$routeProvider', function ($routeProvider) {
             }
         },
         controller: 'ResourceServerResourceDetailCtrl'
+    }).when('/realms/:realm/clients/:client/authz/resource-server/principal', {
+        templateUrl: resourceUrl + '/partials/authz/resource-server-principal-list.html',
+        resolve: {
+            realm: function (RealmLoader) {
+                return RealmLoader();
+            },
+            client : function(ClientLoader) {
+                return ClientLoader();
+            }
+        },
+        controller: 'ResourceServerPrincipalCtrl'
     }).when('/realms/:realm/clients/:client/authz/resource-server/scope', {
         templateUrl: resourceUrl + '/partials/authz/resource-server-scope-list.html',
         resolve: {

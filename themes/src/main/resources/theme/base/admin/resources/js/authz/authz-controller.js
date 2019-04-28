@@ -249,6 +249,58 @@ module.controller('ResourceServerResourceCtrl', function($scope, $http, $route, 
     };
 });
 
+module.controller('ResourceServerPrincipalCtrl', function($scope, $http, $route, $location, realm, ResourceServer, ResourceServerPrincipal, client, AuthzDialog, Notifications, viewState) {
+    $scope.realm = realm;
+    $scope.client = client;
+
+    $scope.query = {
+        realm: realm.realm,
+        client : client.id,
+        deep: false,
+        max : 20,
+        first : 0
+    };
+
+    $scope.listSizes = [5, 10, 20];
+
+    ResourceServer.get({
+        realm : $route.current.params.realm,
+        client : client.id
+    }, function(data) {
+        $scope.server = data;
+
+        $scope.searchQuery();
+    });
+
+    $scope.firstPage = function() {
+        $scope.query.first = 0;
+        $scope.searchQuery();
+    }
+
+    $scope.previousPage = function() {
+        $scope.query.first -= parseInt($scope.query.max);
+        if ($scope.query.first < 0) {
+            $scope.query.first = 0;
+        }
+        $scope.searchQuery();
+    }
+
+    $scope.nextPage = function() {
+        $scope.query.first += parseInt($scope.query.max);
+        $scope.searchQuery();
+    }
+
+    $scope.searchQuery = function() {
+        $scope.searchLoaded = false;
+
+        ResourceServerPrincipal.query($scope.query, function(response) {
+            $scope.searchLoaded = true;
+            $scope.lastSearch = $scope.query.search;
+            $scope.principals = response;
+        });
+    };
+});
+
 module.controller('ResourceServerResourceDetailCtrl', function($scope, $http, $route, $location, realm, ResourceServer, client, ResourceServerResource, ResourceServerScope, AuthzDialog, Notifications) {
     $scope.realm = realm;
     $scope.client = client;

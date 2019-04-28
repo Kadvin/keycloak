@@ -5,6 +5,8 @@
     <ul id="authz-tabs" class="nav nav-tabs nav-tabs-pf"  data-ng-hide="create && !path[4]" style="margin-left: 15px">
         <li ng-class="{active: !path[6]}"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/">{{:: 'settings' | translate}}</a></li>
         <li ng-class="{active: path[6] == 'resource'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/resource">{{:: 'authz-resources' | translate}}</a></li>
+        <li ng-class="{active: path[6] == 'principals'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/principal">{{:: 'authz-principals' | translate}}</a></li>
+        <li ng-class="{active: path[6] == 'menus'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/menu">{{:: 'authz-menus' | translate}}</a></li>
         <li ng-class="{active: path[6] == 'scope'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/scope">{{:: 'authz-authz-scopes' | translate}}</a></li>
         <li ng-class="{active: path[6] == 'policy'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/policy">{{:: 'authz-policies' | translate}}</a></li>
         <li ng-class="{active: path[6] == 'permission'}" data-ng-hide="create"><a href="#/realms/{{realm.realm}}/clients/{{client.id}}/authz/resource-server/permission">{{:: 'authz-permissions' | translate}}</a></li>
